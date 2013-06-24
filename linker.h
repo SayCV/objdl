@@ -46,7 +46,9 @@
 
 #define SOINFO_NAME_LEN 128
 
-#define ANDROID_X86_LINKER
+//#define ANDROID_X86_LINKER
+#define ANDROID_ARM_LINKER
+
 #ifdef ANDROID_ARM_LINKER
 
 #define R_ARM_COPY       20
