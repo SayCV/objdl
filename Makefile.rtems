@@ -9,8 +9,19 @@
 #RTEMS_MAKEFILE_PATH=../test/i386-rtems4.10/pc386
 #RTEMS_MAKEFILE_PATH=../sparc/sparc-rtems4.10/sis
 
-RTEMS_TOOL_PATH = /opt/rtems-4.10
-GCC_VERSION = 4.4.1
+RTEMS_TOOL_BASE=/opt/rtems-4.11-tools
+RTEMS_BSP_BASE=/opt/rtems-4.11
+
+
+ARCH_CPU           = arm-rtemseabi4.11
+BSP            = SayCV_SAM9X25
+PREFIX         = $(RTEMS_TOOL_BASE)
+RTEMS_PREFIX   = $(RTEMS_BSP_BASE)
+RTEMS_ARCH_LIB = $(RTEMS_PREFIX)/$(ARCH_CPU)/$(BSP)/lib
+RTEMS_TOOL_LIB = $(RTEMS_TOOL_BASE)/$(ARCH_CPU)/lib
+
+GCC_VERSION = 4.7.2
+
 PGM=${ARCH}/gsoc.exe
 TARFILES = t.o
 TAROBJ = ${ARCH}/tarfile.o
@@ -40,9 +51,9 @@ $(LDEP):: tools/ldep/ldep.c
 ## Build the symbol table ( Dependancy list ) for CEXP
 ##
 symtab.c::  $(LDEP)
-	$(NM) -g -fposix $(RTEMS_TOOL_PATH)/$(RTEMS_CPU)-rtems4.10/lib/libc.a > $(ARCH)/libc.nm
-	$(NM) -g -fposix $(RTEMS_TOOL_PATH)/$(RTEMS_CPU)-rtems4.10/lib/libm.a > $(ARCH)/libm.nm
-	$(NM) -g -fposix $(RTEMS_TOOL_PATH)/lib/gcc/$(RTEMS_CPU)-rtems4.10/$(GCC_VERSION)/libgcc.a > $(ARCH)/libgcc.nm
+	$(NM) -g -fposix $(RTEMS_TOOL_LIB)/libc.a > $(ARCH)/libc.nm
+	$(NM) -g -fposix $(RTEMS_TOOL_LIB)/libm.a > $(ARCH)/libm.nm
+	$(NM) -g -fposix $(RTEMS_TOOL_BASE)/lib/gcc/$(ARCH_CPU)/$(GCC_VERSION)/libgcc.a > $(ARCH)/libgcc.nm
 	$(NM) -g -fposix $(RTEMS_MAKEFILE_PATH)/lib/librtemsbsp.a > $(ARCH)/librtemsbsp.nm
 	$(NM) -g -fposix $(RTEMS_MAKEFILE_PATH)/lib/librtemscpu.a > $(ARCH)/librtemscpu.nm
 	$(NM) -g -fposix $(ARCH)/demo.o  > $(ARCH)/app.nm
